@@ -1,6 +1,5 @@
 import React from "react";
-import "./button.css";
 
 export const Button = (props) => {
-  return <button className="button" onClick={props.onClick}>{props.children}</button>;
+  return <button className={`border p-2 rounded-lg text-white hover:scale-110  ${props.className}`} onClick={props.onClick}>{props.children}</button>;
 };

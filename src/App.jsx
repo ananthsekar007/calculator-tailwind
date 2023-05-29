@@ -1,35 +1,77 @@
 import { useState } from "react";
 import "./App.css";
 import { Button } from "./components/Button";
+import { Input } from "./components/Input";
 
 export default function App() {
-  const [count, setCount] = useState(40);
+  const [firstNum, setFirstNum] = useState();
+  const [secondNum, setSecondNum] = useState();
+  const [result, setResult] = useState(0);
 
-  const incrementCounter = () => {
-    setCount((prevState) => (prevState === 100 ? prevState : prevState + 10));
+  const onFirstNumChange = (e) => {
+    setFirstNum(Number(e.target.value));
   };
 
-  const decrementCounter = () => {
-    setCount((prevState) => (prevState === 0 ? prevState : prevState - 10));
+  const onSecondNumChange = (e) => {
+    setSecondNum(Number(e.target.value));
   };
+
+  const addNums = () => {
+    setResult(firstNum + secondNum);
+  };
+
+  const subNums = () => {
+    setResult(firstNum - secondNum);
+  };
+
+  const divideNums = () => {
+    setResult(firstNum / secondNum);
+  };
+
+  const multiplyNums = () => {
+    setResult(firstNum * secondNum);
+  };
+
+  const resetCalculator = () => {
+    setFirstNum(0);
+    setSecondNum(0);
+    setResult(null)
+  }
 
   return (
-    <div className="flex items-center  flex-col md:flex-row justify-evenly  h-screen">
-      <Button onClick={decrementCounter}>Decrement</Button>
-      <div className="relative w-24 h-24">
-        <div className="absolute top-0 left-0 w-full h-full bg-gray-200 rounded-full"></div>
-        <div
-          className="absolute top-0 left-0 w-full h-full bg-blue-500 rounded-full"
-          style={{
-            clipPath: `polygon(0% 0%, 0% 100%, ${count}% 100%, ${count}% 0%)`,
-            transition: "clip-path 0.5s ease-in-out",
-          }}
-        ></div>
-        <div className="absolute flex items-center justify-center w-full h-full">
-          <span className="text-xl font-bold text-inherit">{count / 10}</span>
+    <>
+      <div className="flex flex-col self-center w-64 md:w-96 p-4 space-y-10 bg-white rounded-lg shadow hover:shadow-lg justify-center items-center container">
+        <div className="flex flex-col space-y-4 items-center">
+          
+          <div id="result" className="w-32 h-32 border-[3px] border-blue-500 hover:shadow-md rounded-full flex justify-center items-center cursor-pointer" onClick={resetCalculator} >
+            {result ? <p className="text-2xl font-medium">{result}</p>: <p className="text-xl font-medium">Result</p>}
+          </div>
+          <Input
+            value={firstNum}
+            onChange={onFirstNumChange}
+            placeholder="Enter number..."
+          />
+          <Input
+            value={secondNum}
+            onChange={onSecondNumChange}
+            placeholder="Enter number..."
+          />
+        </div>
+        <div id="buttonContainer" className="flex flex-col space-y-3">
+          <Button className="bg-red-600" onClick={addNums}>
+            Add
+          </Button>
+          <Button className="bg-orange-600" onClick={subNums}>
+            Subtract
+          </Button>
+          <Button className="bg-lime-600" onClick={multiplyNums}>
+            Multiply
+          </Button>
+          <Button className="bg-teal-600" onClick={divideNums}>
+            Divide
+          </Button>
         </div>
       </div>
-      <Button onClick={incrementCounter}>Increment</Button>
-    </div>
+    </>
   );
 }
